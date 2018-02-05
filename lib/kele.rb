@@ -1,8 +1,10 @@
 require 'httparty'
 require 'json'
+require './lib/roadmap'
 
 class Kele
    include HTTParty
+   include Roadmap
    base_uri "https://www.bloc.io/api/v1/"
 
    def initialize(email, password)
@@ -33,3 +35,5 @@ end
 
 
 # mentor_id = 2290632
+# roadmap_id = 38
+#  checkpoint_id test 2095
