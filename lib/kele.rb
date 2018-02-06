@@ -35,10 +35,23 @@ class Kele
       @messages = JSON.parse(response.body)
    end
 
-   def create_message(sender, recipient_id, token, subject, stripped_text)
-     response = self.class.post(api_url("messages"), body: {"sender" => sender, "recipient_id" => recipient_id, "token" => token, "subject" => subject, "stripped-text" => stripped_text}, headers: { 'authorization' => @auth_token })
-     puts response
+   # def create_message(sender, recipient_id, token = nil, subject = nil, stripped_text)
+   #   response = self.class.post(api_url("messages"), body: {"sender" => sender, "recipient_id" => recipient_id, "token" => token, "subject" => subject, "stripped-text" => stripped_text}, headers: { 'authorization' => @auth_token })
+   #   puts response
+   # end
+
+   def create_message(sender, recipient_id, token = nil, subject = nil, stripped_text)
+     response = self.class.post(api_url("messages"), body: {
+       "sender": sender,
+       "recipient_id": recipient_id,
+       "token": token,
+       "subject": subject,
+      "stripped-text": stripped_text },
+       headers: { "authorization" => @auth_token }
+     )
+     puts response.success?
    end
+
 
    private
    def api_url(endpoint)
