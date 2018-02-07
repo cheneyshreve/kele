@@ -5,7 +5,6 @@ require './lib/roadmap'
 class Kele
    include HTTParty
    include Roadmap
-   base_uri "https://www.bloc.io/api/v1/"
 
    def initialize(email, password)
      response = self.class.post(api_url("sessions"), body: {"email": email, "password": password })
@@ -15,13 +14,13 @@ class Kele
 
    def get_me
      response = self.class.get(api_url("users/me"), headers: {"authorization" => @auth_token })
-     @user_data = JSON.parse(response.body)
+     user_data = JSON.parse(response.body)
    end
 
    def get_mentor_availability(mentor_id)
      response = self.class.get(api_url("mentors/#{mentor_id}/student_availability"), headers: {"authorization" => @auth_token })
-     @mentor_data = JSON.parse(response.body).to_a
-     availablity = @mentor_data.select do |hash|
+     mentor_data = JSON.parse(response.body).to_a
+     availablity = mentor_data.select do |hash|
        hash["booked"] != true
      end
    end
@@ -32,7 +31,7 @@ class Kele
      else
        response = self.class.get(api_url("message_threads?page=#{page}"), headers: {"authorization" => @auth_token })
      end
-      @messages = JSON.parse(response.body)
+      messages = JSON.parse(response.body)
    end
 
    def create_message(sender, recipient_id, token = nil, subject = nil, stripped_text)
@@ -61,6 +60,7 @@ class Kele
    end
 
    private
+
    def api_url(endpoint)
      "https://www.bloc.io/api/v1/#{endpoint}"
    end
