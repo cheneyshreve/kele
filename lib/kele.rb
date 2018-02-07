@@ -46,7 +46,7 @@ class Kele
      puts response.success?
    end
 
-   def create_submission(checkpoint_id, enrollment_id, assignment_branch = nil, assignment_commit_link = nil, comment = nil)
+   def create_submission(checkpoint_id, enrollment_id, assignment_branch, assignment_commit_link, comment)
      response = self.class.post(api_url("checkpoint_submissions"),
      body: {
        "checkpoint_id": checkpoint_id,
